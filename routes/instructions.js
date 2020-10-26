@@ -5,27 +5,18 @@ var router = express.Router();
  * @swagger
  *
  * /instructions:
- *   post:
- *     description: Login to the application
+ *   get:
+ *     description: Get instructions for the test
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: username
- *         description: Username to use for login.
- *         in: formData
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password.
- *         in: formData
- *         required: true
- *         type: string
  *     responses:
  *       200:
- *         description: login
+ *         description: instructions
  */
+const response = '{"instructions": "Hit the entries endpoint with a new entry, then add a score using the judge endpoint. Collect the score from the results endpoint. Put the code in a git repo and send us the URL."}';
+
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.send(response);
 });
 
 module.exports = router;
