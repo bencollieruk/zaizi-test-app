@@ -2,6 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
+const serverUrl = process.env.SERVER;
+const processDefinition = process.env.LIVE_PROCESS_ID;
+const definitionName = process.env.DEFINITION_NAME;
+
 /**
  * @swagger
  *
@@ -20,27 +24,24 @@ const router = express.Router();
  *       200:
  *         description: Response containing entry id.
  */
-router.post('/', function(req, res, next) {
+router.post('/', async(req, res, next) => {
 
-    const serverUrl = "https://zaizi-backend.herokuapp.com";
-    const processDefinition = "zaizi-challenge:12:fd2d3204-20e1-11eb-b046-fabf85c79aab";
-    const createInstanceEndpoint = serverUrl + "/engine-rest/process-definition/" + processDefinition + "/start";
-    console.log(createInstanceEndpoint);
-
-    axios.post(createInstanceEndpoint, {
+    const latestDefinition = await getLatestDefinition();
+    console.log(latestDefinition);
+    const createInstanceEndpoint = serverUrl + "/engine-rest/process-definition/" + latestDefinition + "/start";
+    const data = {
         firstName: 'Fred',
         lastName: 'Flintstone'
-    })
+    }
+    axios.post(createInstanceEndpoint, data)
         .then(function (response) {
-            res.send(response.toString());
+            res.send(response.data);
         })
         .catch(function (error) {
             console.log(error);
             res.send("Error");
         });
     });
-
-
 
 
 /**
@@ -75,5 +76,30 @@ router.post('/:id/score', function(req, res, next) {
     };
     res.send(response);
 });
+
+async function getLatestDefinition() {
+    const getDefinitionEndpoint = serverUrl + "/engine-rest/process-definition/";
+    console.log(getDefinitionEndpoint);
+    const response = await axios.get(getDefinitionEndpoint);
+    const data = response.data;
+    console.log(data);
+    return getLatestDefinitionFromList(data);
+}
+
+function getLatestDefinitionFromList(data) {
+    let topDefinitionId = 0;
+    for (let definition in data) {
+        if (data[definition].version > topDefinitionId) {
+            topDefinitionId = data[definition].version;
+        }
+    }
+    for (let definition in data) {
+        if (data[definition].version === topDefinitionId) {
+            return data[definition].id;
+        }
+    }
+    return null;
+}
+
 
 module.exports = router;
