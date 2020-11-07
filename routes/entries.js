@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const axios = require('axios');
+const router = express.Router();
 
 /**
  * @swagger
@@ -20,11 +21,27 @@ var router = express.Router();
  *         description: Response containing entry id.
  */
 router.post('/', function(req, res, next) {
-    const response = {
-        "id": "912834"
-    }
-    res.send(response);
-});
+
+    const serverUrl = "https://zaizi-backend.herokuapp.com";
+    const processDefinition = "zaizi-challenge:12:fd2d3204-20e1-11eb-b046-fabf85c79aab";
+    const createInstanceEndpoint = serverUrl + "/engine-rest/process-definition/" + processDefinition + "/start";
+    console.log(createInstanceEndpoint);
+
+    axios.post(createInstanceEndpoint, {
+        firstName: 'Fred',
+        lastName: 'Flintstone'
+    })
+        .then(function (response) {
+            res.send(response.toString());
+        })
+        .catch(function (error) {
+            console.log(error);
+            res.send("Error");
+        });
+    });
+
+
+
 
 /**
  * @swagger
