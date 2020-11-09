@@ -85,6 +85,7 @@ router.post('/:id/score', async(req, res, next) => {
 
 async function addScoreToEntry(taskId, score) {
     const taskCompletionEndpoint = serverUrl + "/engine-rest/task/" + taskId + "/complete";
+    console.log(taskCompletionEndpoint);
     const data = {"variables":
             {
                 "score": {"value": score}
@@ -96,6 +97,7 @@ async function addScoreToEntry(taskId, score) {
 
 async function getTaskDefinitionFromInstanceId(instanceId) {
     const getTaskDefinitionEndpoint = serverUrl + "/engine-rest/task/?processInstanceId=" + instanceId
+    console.log(getTaskDefinitionEndpoint);
     const response = await axios.get(getTaskDefinitionEndpoint);
     const data = response.data;
     return data[0].id;
