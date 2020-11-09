@@ -27,6 +27,7 @@ router.post('/', async(req, res, next) => {
     const latestDefinition = await getLatestDefinition();
     //console.log(latestDefinition);
     const createInstanceEndpoint = serverUrl + "/engine-rest/process-definition/" + latestDefinition + "/start";
+    console.log(createInstanceEndpoint);
     const username = req.query.username;
     const data = {"variables":
             {
@@ -102,7 +103,7 @@ async function getTaskDefinitionFromInstanceId(instanceId) {
 
 async function getLatestDefinition() {
     const getDefinitionEndpoint = serverUrl + "/engine-rest/process-definition/";
-    //console.log(getDefinitionEndpoint);
+    console.log(getDefinitionEndpoint);
     const response = await axios.get(getDefinitionEndpoint);
     const data = response.data;
     //console.log(data);
