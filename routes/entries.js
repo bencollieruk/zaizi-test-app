@@ -49,7 +49,7 @@ router.post('/', async(req, res, next) => {
 /**
  * @swagger
  *
- * /entries/{id}/score:
+ * /entries/{entry_id}/score:
  *   post:
  *     description: Associate a score with a competition entry
  *     produces:
@@ -72,7 +72,7 @@ router.post('/', async(req, res, next) => {
  *         description: Success
  */
 router.post('/:id/score', async(req, res, next) => {
-    const instanceId = req.params.id;
+    const instanceId = req.params.entry_id;
     const score = parseInt(req.query.score);
     const taskId = await getTaskDefinitionFromInstanceId(instanceId);
     await addScoreToEntry(taskId, score);
