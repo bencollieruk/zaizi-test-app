@@ -1,5 +1,6 @@
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsondoc = require("swagger-jsdoc");
+const baseUrl = process.env.BASE_URL;
 
 var express = require('express');
 var router = express.Router();
@@ -20,7 +21,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000/"
+                url: baseUrl
             }
         ]
     },

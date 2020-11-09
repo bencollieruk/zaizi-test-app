@@ -1,10 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
-
 const serverUrl = process.env.SERVER;
-const processDefinition = process.env.LIVE_PROCESS_ID;
-const definitionName = process.env.DEFINITION_NAME;
+
 
 /**
  * @swagger
