@@ -71,7 +71,7 @@ router.post('/', async(req, res, next) => {
  *       200:
  *         description: Success
  */
-router.post('/:id/score', async(req, res, next) => {
+router.post('/:entry_id/score', async(req, res, next) => {
     const instanceId = req.params.entry_id;
     const score = parseInt(req.query.score);
     const taskId = await getTaskDefinitionFromInstanceId(instanceId);
